@@ -1,8 +1,8 @@
 {{#each article}}
-   	<p data-id="{{this.id}}">
+   	<p>
    	    <a href="{{this.link}}">{{this.title}}</a>
-   	    <button id="delete">Delete</button>
-   	    <button id="note">Note</button>
+   	    <button data-id="{{this.id}}" class="delete">Delete</button>
+   	    <button data-id="{{this.id}}" class="note">Note</button>
    	</p>
 {{/each}}
 
