@@ -4,6 +4,25 @@
    	    <button data-id="{{this.id}}" class="delete">Delete</button>
    	    <button data-id="{{this.id}}" class="note">Note</button>
    	</p>
+
+<div class="modal" id="notemodal" tabindex=" -1 " role="dialog ">
+    <div class="modal-dialog " role="document ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h5 class="modal-title" id="modaltitle"></h5>
+            </div>
+          <div class="modal-body ">
+            <ul class="list-group" id="newnote">
+              
+              
+            </ul>
+                <textarea id="note" placeholder="New note"></textarea>
+                <button id="savenote" data-dismiss="modal">Save Note</button>
+            </div>
+        </div>
+    </div>
+</div>
 {{/each}}
+
 
     	        	    
