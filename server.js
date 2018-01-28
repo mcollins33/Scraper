@@ -27,6 +27,7 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/AJCArticles";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
+
 app.get("/scrape", function(req, res) {
 
     request("http://www.ajc.com/", function(error, response, body) {
@@ -60,11 +61,38 @@ app.get("/scrape", function(req, res) {
 });
 
 app.get("/", function(req, res) {
-    db.Article.find({})
+    db.Article.find({saved: false})
         .then(function(dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
             console.log(dbArticle);
-            res.render("index", {article: dbArticle})
+            res.render("index", { article: dbArticle })
+        })
+        .catch(function(err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
+
+});
+
+app.get("/articles", function(req, res) {
+    db.Article.find({ saved: true })
+        .then(function(dbArticle) {
+            // If we were able to successfully find Articles, send them back to the client
+            console.log(dbArticle);
+            res.render("saved", { article: dbArticle })
+        })
+        .catch(function(err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
+
+});
+
+app.put("/articles/:id", function(req, res) {
+    db.Article.findOneAndUpdate({ _id: req.params.id }, {$set: {saved: true}})
+        .then(function(dbArticle) {
+            // If we were able to successfully find Articles, send them back to the client
+            console.log(dbArticle);
         })
         .catch(function(err) {
             // If an error occurred, send it to the client
