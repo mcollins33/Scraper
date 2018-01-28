@@ -1,8 +1,8 @@
-<ul>
-  {{#each article}}
-    <li>
-      <div><a>{{this.title}}</p></div>
-      <div><p>{{this.link}}</p></div>
-     </li>
-  {{/each}}
-</ul>
+{{#each article}}
+   	<p>
+   	    <a href="{{this.link}}">{{this.title}}</a>
+   	    <button data-id="{{this.id}}" class="savearticle">Save Article</button>
+   	</p>
+{{/each}}
+
+    	        	    
