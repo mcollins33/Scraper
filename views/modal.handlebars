@@ -1,0 +1,23 @@
+{{#each note}}
+<div class="modal" id="notemodal" tabindex=" -1 " role="dialog ">
+    <div class="modal-dialog " role="document ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h5 class="modal-title ">Notes for article: {{this.id}}</h5>
+            </div>
+    	    <div class="modal-body ">
+    	    	<ul class="list-group">
+    	    		{{#each note}}
+    	    		<li class="list-group-item">{{this.note}}</li>
+    	    		<button data-id="{{this.id}}" id="deletenote">Delete</button>
+    	    		{{/each}}
+				</ul>
+                <input id="note" placeholder="New note"></input>
+                <button data-id="{{this.id}}" id="savenote" data-dismiss="modal">Save Note</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+    	        	    

@@ -61,7 +61,7 @@ app.get("/scrape", function(req, res) {
 });
 
 app.get("/", function(req, res) {
-    db.Article.find({saved: false})
+    db.Article.find({ saved: false })
         .then(function(dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
             console.log(dbArticle);
@@ -89,11 +89,11 @@ app.get("/articles", function(req, res) {
 });
 
 app.put("/articles/:id", function(req, res) {
-    db.Article.findOneAndUpdate({ _id: req.params.id }, {$set: {saved: true}})
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { $set: { saved: true } })
         .then(function(dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
             console.log(dbArticle);
-             res.render("index", { article: dbArticle })
+            res.render("index", { article: dbArticle })
         })
         .catch(function(err) {
             // If an error occurred, send it to the client
@@ -115,6 +115,41 @@ app.delete("/articles/:id", function(req, res) {
             res.json(err);
         });
 
+});
+
+app.post("/articles/:id", function(req, res) {
+  // Create a new Note in the db
+  console.log(req.params.id);
+  db.Note.create(req.body)
+    .then(function(dbNote) {
+      // If a Note was created successfully, find one User (there's only one) and push the new Note's _id to the User's `notes` array
+      // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
+      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+      return db.Article.findOneAndUpdate({_id: req.params.id}, { $push: {notes: dbNote._id }}, { new: true });
+    })
+    .then(function(dbArticle) {
+      // If the User was updated successfully, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurs, send it back to the client
+      res.json(err);
+    });
+});
+
+app.get("/articles/:id", function(req, res) {
+  // Create a new Note in the db
+ db.Article.find({_id: req.params.id})
+    // Specify that we want to populate the retrieved users with any associated notes
+    .populate("notes")
+    .then(function(dbArticle) {
+      // If able to successfully find and associate all Users and Notes, send them back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurs, send it back to the client
+      res.json(err);
+    });
 });
 
 app.listen(PORT, function() {
