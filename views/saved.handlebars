@@ -13,8 +13,10 @@
             </div>
           <div class="modal-body ">
             <ul class="list-group" id="newnote">
-              
-              
+              {{#each this.notes}}
+                <li>{{this.note}}</li>
+                <button data-id="{{this._id}}">Delete</button>
+              {{/each}}
             </ul>
                 <textarea id="note" placeholder="New note"></textarea>
                 <button id="savenote" data-dismiss="modal">Save Note</button>

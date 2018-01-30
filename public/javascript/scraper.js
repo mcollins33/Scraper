@@ -48,7 +48,7 @@ $(".delete").on("click", function(event) {
 $("#savenote").on("click", function(event) {
 
     var thisId = $(this).attr("data-id");
-
+console.log(this);
     // Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
         method: "POST",
@@ -64,7 +64,6 @@ $("#savenote").on("click", function(event) {
 $(".note").on("click", function(event) {
 
     var thisId = $(this).attr("data-id");
-    console.log(thisId);
 $("#notemodal").modal("show");
 $("#deletenote").attr("data-id", thisId);
 $("#savenote").attr("data-id", thisId);
