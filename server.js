@@ -27,6 +27,7 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/AJCArticles";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
+var articles;
 
 app.get("/scrape", function(req, res) {
 
@@ -48,24 +49,26 @@ app.get("/scrape", function(req, res) {
             db.Article.create(result)
                 .then(function(dbArticle) {
 
-                    console.log(dbArticle);
                 })
                 .catch(function(err) {
 
                     return res.json(err);
                 });
         });
-
         res.send("Scrape Complete");
+
     });
 });
+
+
 
 app.get("/", function(req, res) {
     db.Article.find({ saved: false })
         .then(function(dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
-            console.log(dbArticle);
-            res.render("index", { article: dbArticle })
+
+            res.render("index", { article: dbArticle });
+            articles = dbArticle;
         })
         .catch(function(err) {
             // If an error occurred, send it to the client
@@ -74,12 +77,13 @@ app.get("/", function(req, res) {
 
 });
 
+
+
 app.get("/articles", function(req, res) {
     db.Article.find({ saved: true })
         .populate("notes")
         .then(function(dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
-            console.log(dbArticle);
             res.render("saved", { article: dbArticle })
         })
         .catch(function(err) {
@@ -93,7 +97,6 @@ app.put("/articles/:id", function(req, res) {
     db.Article.findOneAndUpdate({ _id: req.params.id }, { $set: { saved: true } })
         .then(function(dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
-            console.log(dbArticle);
             res.render("index", { article: dbArticle })
         })
         .catch(function(err) {
@@ -108,7 +111,7 @@ app.delete("/articles/:id", function(req, res) {
     db.Article.findOneAndRemove({ _id: req.params.id })
         .then(function(dbArticle) {
             // If we were able to successfully find Articles, send them back to the client
-            console.log(dbArticle);
+
             res.render("saved", { article: dbArticle })
         })
         .catch(function(err) {
@@ -119,38 +122,58 @@ app.delete("/articles/:id", function(req, res) {
 });
 
 app.post("/articles/:id", function(req, res) {
-  // Create a new Note in the db
-  console.log(req.params.id);
-  db.Note.create(req.body)
-    .then(function(dbNote) {
-      // If a Note was created successfully, find one User (there's only one) and push the new Note's _id to the User's `notes` array
-      // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
-      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-      return db.Article.findOneAndUpdate({_id: req.params.id}, { $push: {notes: dbNote._id }}, { new: true });
-    })
-    .then(function(dbArticle) {
-      // If the User was updated successfully, send it back to the client
-      res.json(dbArticle);
-    })
-    .catch(function(err) {
-      // If an error occurs, send it back to the client
-      res.json(err);
-    });
+    // Create a new Note in the db
+
+    db.Note.create(req.body)
+        .then(function(dbNote) {
+            // If a Note was created successfully, find one User (there's only one) and push the new Note's _id to the User's `notes` array
+            // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
+            // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { notes: dbNote._id } }, { new: true });
+        })
+        .then(function(dbArticle) {
+            // If the User was updated successfully, send it back to the client
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            // If an error occurs, send it back to the client
+            res.json(err);
+        });
 });
 
 app.get("/articles/:id", function(req, res) {
-  // Create a new Note in the db
- db.Article.find({_id: req.params.id})
-    // Specify that we want to populate the retrieved users with any associated notes
-    .populate("notes")
-    .then(function(dbArticle) {
-      // If able to successfully find and associate all Users and Notes, send them back to the client
-      res.json(dbArticle);
-    })
-    .catch(function(err) {
-      // If an error occurs, send it back to the client
-      res.json(err);
-    });
+    // Create a new Note in the db
+    db.Article.find({ _id: req.params.id })
+        // Specify that we want to populate the retrieved users with any associated notes
+        .populate("notes")
+        .then(function(dbArticle) {
+            // If able to successfully find and associate all Users and Notes, send them back to the client
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            // If an error occurs, send it back to the client
+            res.json(err);
+        });
+});
+
+app.delete("/delete/:id", function(req, res) {
+    // Remove a note using the objectID
+    db.Note.remove({
+            _id: req.params.id
+        },
+        function(error, removed) {
+            // Log any errors from mongojs
+            if (error) {
+                console.log(error);
+                res.send(error);
+            } else {
+                // Otherwise, send the mongojs response to the browser
+                // This will fire off the success function of the ajax request
+                console.log(removed);
+                res.send(removed);
+            }
+        }
+    );
 });
 
 app.listen(PORT, function() {
