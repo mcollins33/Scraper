@@ -23,11 +23,30 @@
     </nav>
     <div class="container-fluid jumbotron">
         <h1 id="title">AJC SCRAPER</h1>
+         <div class="modal" id="notemodal" tabindex=" -1 " role="dialog ">
+            <div class="modal-dialog " role="document ">
+                <div class="modal-content ">
+                    <div class="modal-header" id="noteheader">
+                    </div>
+                    <div class="modal-body ">
+                        <div class="list-group" id="newnotelist">
+
+                        </div>
+                        <div id="newnote">
+                            <textarea id='noteinput' name='body'></textarea>
+                            <button id="savenote">Save Note</button>
+                            <button id="closenote">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="container-fluid articles">
         <h1>ARTICLES</h1>
         {{{ body }}}
     </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/javascript/scraper.js"></script>
