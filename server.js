@@ -25,6 +25,7 @@ app.use(express.static("public"));
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/AJCArticles";
 
 mongoose.Promise = Promise;
+
 mongoose.connect(MONGODB_URI), {
   useMongoClient: true
 });
@@ -34,7 +35,8 @@ var articles;
 app.get("/scrape", function(req, res) {
 
     request("http://www.ajc.com/", function(error, response, body) {
-
+    // request("http://time.com/", function(error, response, body) {
+        
         var $ = cheerio.load(body);
 
         $("div.item-headline").each(function(i, element) {
@@ -57,8 +59,30 @@ app.get("/scrape", function(req, res) {
                     return res.json(err);
                 });
         });
-        res.send("Scrape Complete");
 
+        // $("div.home-brief-title-and-excerpt").each(function(i, element) {
+
+        //     var result = {};
+
+        //     result.title = $(this)
+        //         .children("h2").eq(1)
+        //         .text();
+        //     result.link = $(this)
+        //         .children("h2").eq(1)
+        //         .attr("href");
+        //     result.summary = $(this)
+        //         .children("p")
+        //         .text();
+
+        //     db.Article.create(result)
+        //         .then(function(dbArticle) {
+
+        //         })
+        //         .catch(function(err) {
+
+        //             return res.json(err);
+        //         });
+        // });
     });
 });
 
