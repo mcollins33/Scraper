@@ -1,1 +1,3 @@
 # Scraper
+
+This app was created using html, css, bootstrap, express-handlebars, javascript, jquery, express, request, mongoose, body-parser and cheerio.  The app scrapes ariticles from the Atlanta Journal Constitution (summary not available).  The article titles are displayed as links to the full article.  There is an option to save the articles to a list.  Notes can be added to the saved articles and deleted.  Saved articles can also be deleted from the saved list.  New articles can be scraped without creating duplicates in the database.
