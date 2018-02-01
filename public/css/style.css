@@ -1,7 +1,35 @@
 #title {
 	text-align: center;
+}
 
-.article {
-	background: blue;
+.jumbotron, .collapse, .navbar-collapse,#bs-example-navbar-collapse-1 {
+	margin: 0;
+}
+
+.list-group-item {
+	margin: 0 25px 0 25px;
+}
+
+.newnote {
+	margin-left: 15px;
+	width: 360px;
+
+}
+
+.deletenote {
+	margin-left: 15px;
+	width: 15%;
+}
+
+#newnotelist {
 	margin-bottom: 10px;
+}
+
+#noteinput {
+	margin: 0;
+	width: 360px;
+}
+
+.modal-body {
+	background-color: lightgray;
 }

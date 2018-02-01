@@ -72,7 +72,7 @@ $("#closenote").on("click", function(event) {
 $(".note").on("click", function(event) {
     var thisId = $(this).attr("data-id");
 
-    $("#notemodal").modal("show");
+    $("#notemodal").modal({backdrop: "static", keyboard: false});
 
     $.ajax({
             method: "GET",
@@ -81,27 +81,29 @@ $(".note").on("click", function(event) {
         // With that done, add the note information to the page
         .then(function(data) {
 
-            $("#noteheader").append("<h3>Notes for: " + data[0].title + "</h3>");
+            $("#noteheader").append("<h3 class='panel-title'>" + data[0].title + "</h3>");
             $("#savenote").attr("data-id", thisId);
             $("#newnotelist").attr("data-id", thisId);
 
-            // If there's a note in the article
             if (data[0].notes) {
                 for (var i = 0; i < data[0].notes.length; i++) {
-                    var note = $("<p>");
+                    
+                    var note = $("<div class='form-control pull-left newnote col-md-8'>");
                     note.text(data[0].notes[i].note);
                     var button = $("<button>");
-                    button.addClass("deletenote");
+                    button.addClass("btn btn-default deletenote col-md-2");
                     button.attr("data-id", data[0].notes[i]._id);
+                    button.attr("type", "button");
                     button.text("Delete");
                     $("#newnotelist").append(note);
                     $("#newnotelist").append(button);
                 };
             };
+
         });
 
 });
-$("#newnotelist").on("click", ".deletenote", function (event) {
+$("#newnotelist").on("click", ".deletenote", function(event) {
 
     var thisId = $(this).attr("data-id");
 
@@ -110,7 +112,7 @@ $("#newnotelist").on("click", ".deletenote", function (event) {
     $.ajax({
         type: "DELETE",
         url: "/delete/" + thisId,
-        }).then(function(data) {
+    }).then(function(data) {
         location.reload();
     });
 
