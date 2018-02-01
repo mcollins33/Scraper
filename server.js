@@ -6,16 +6,12 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// var logger = require("morgan");
 var request = require("request");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var cheerio = require("cheerio");
 
 var db = require("./models");
-
-// Use morgan logger for logging requests
-// app.use(logger("dev"));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -202,6 +198,6 @@ app.delete("/delete/:id", function(req, res) {
     );
 });
 
-app.listen(PORT, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log("App running on port " + PORT + "!");
 });
