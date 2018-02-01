@@ -1,11 +1,8 @@
 {{#each article}}
-   	<p>
-   	    <a href="{{this.link}}">{{this.title}}</a>
-   	    <button data-id="{{this.id}}" class="delete">Delete</button>
-   	    <button data-id="{{this.id}}" class="note">Note</button>
-   	</p>
-
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><a href="{{this.link}}">{{this.title}}</a><button data-id="{{this.id}}" class="btn btn-default delete">Delete</button>
+   	    <button data-id="{{this.id}}" class="btn btn-default note">Note</button></h3>
+</div>
+</div>	    
 {{/each}}
-
-
-    	        	    

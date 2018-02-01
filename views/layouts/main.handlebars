@@ -25,24 +25,25 @@
         <h1 id="title">AJC SCRAPER</h1>
          <div class="modal" id="notemodal" tabindex=" -1 " role="dialog ">
             <div class="modal-dialog " role="document ">
-                <div class="modal-content ">
+                <div class="modal-content panel panel-default ">
                     <div class="modal-header" id="noteheader">
                     </div>
-                    <div class="modal-body ">
-                        <div class="list-group" id="newnotelist">
-
+                    <div class="modal-body">
+                        <div class="row" id="newnotelist">
                         </div>
-                        <div id="newnote">
-                            <textarea id='noteinput' name='body'></textarea>
-                            <button id="savenote">Save Note</button>
-                            <button id="closenote">Close</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer input-group">
+                        <span class="newnote">
+                            <textarea type="text" class="form-control" placeholder="Input notes..." id="noteinput"></textarea>
+                            <button class="btn btn-default" id="savenote" type="button">Save Note</button>
+                            <button class="btn btn-default" id="closenote" type="button">Close</button>  
+                        </span>                            
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid articles">
+    <div class="container articles">
         <h1>ARTICLES</h1>
         {{{ body }}}
     </div>
