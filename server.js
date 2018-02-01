@@ -25,7 +25,9 @@ app.use(express.static("public"));
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/AJCArticles";
 
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI), {
+  useMongoClient: true
+});
 
 var articles;
 
