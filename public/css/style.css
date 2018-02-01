@@ -33,3 +33,11 @@
 .modal-body {
 	background-color: lightgray;
 }
+
+#articlescrape {
+	height: 50px;
+}
+
+.delete {
+	margin-left: 10px;
+}
